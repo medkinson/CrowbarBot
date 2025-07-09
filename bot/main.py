@@ -1,15 +1,29 @@
 import os
-from dotenv import load_dotenv
-from aiogram import Bot
-from aiogram.enums import ParseMode
-from aiogram.client.bot import DefaultBotProperties
 import asyncio
-from handlers.start import dp
+from dotenv import load_dotenv
+from aiogram import Bot, Dispatcher
+from handlers import start
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from middlewares.db import DbSessionMiddleware
+from database.models import CrowbarStats, Base
 
 load_dotenv()
 
-async def main():
-    bot = Bot(token=os.getenv("BOT_TOKEN"),default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+async def create_tables(engine):
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+async def main() -> None:
+    engine = create_async_engine("sqlite+aiosqlite:///crowbarbot.db", echo=True)
+    sessionmaker = async_sessionmaker(engine, expire_on_commit=False)
+
+    await create_tables(engine)
+    bot = Bot(token=os.getenv("BOT_TOKEN"))
+    dp = Dispatcher()
+
+    dp.update.middleware(DbSessionMiddleware(sessionmaker))
+    dp.include_routers(start.router)
+
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
