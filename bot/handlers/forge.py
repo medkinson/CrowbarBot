@@ -8,6 +8,8 @@ from database.models import CrowbarStats
 
 router = Router()
 
+FORGING_COOLDOWN = 7200
+
 messages_success = [
     "{first_name}, Пшш-ш-ш-ш-ш! Успешно сковано {n} монтировок.",
     "{first_name}, сервер выдержал запрос - random даёт тебе {n} монтировок.",
@@ -38,15 +40,17 @@ async def handle_message(message: Message, session: AsyncSession) -> None:
         )
         session.add(stats)
         await session.commit()
-    if current_time - stats.last_forging >= 7200:
+    if current_time - stats.last_forging >= FORGING_COOLDOWN:
         crowbar_amount = random.randint(1,5)
         stats.crowbars += crowbar_amount
         stats.last_forging = current_time
         await session.commit()
         msg = random.choice(messages_success).format(first_name = message.from_user.first_name, n = crowbar_amount)
         await message.answer(msg)
-    elif current_time - stats.last_forging < 7200:
-        remaining_hours = (7200 - (current_time - stats.last_forging)) // 3600 
-        remaining_minutes = (3600 - (current_time - stats.last_forging)) // 60
+        
+    elif current_time - stats.last_forging < FORGING_COOLDOWN:
+        remaining_seconds = FORGING_COOLDOWN - (current_time - stats.last_forging)
+        remaining_hours = remaining_seconds // 3600 
+        remaining_minutes = (remaining_seconds % 3600) // 60 
         msg = random.choice(messages_fail).format(first_name = message.from_user.first_name, hours_left = remaining_hours, minutes_left = remaining_minutes)
         await message.answer(msg)
