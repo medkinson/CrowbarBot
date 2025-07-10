@@ -2,7 +2,7 @@ import os
 import asyncio
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
-from handlers import start, forge
+from handlers import start, forge, gift, top
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from middlewares.db import DbSessionMiddleware
 from database.models import CrowbarStats, Base
@@ -22,7 +22,7 @@ async def main() -> None:
     dp = Dispatcher()
 
     dp.update.middleware(DbSessionMiddleware(sessionmaker))
-    dp.include_routers(start.router, forge.router)
+    dp.include_routers(start.router, forge.router, gift.router, top.router)
 
     await dp.start_polling(bot)
 

@@ -14,7 +14,7 @@ messages_success = [
     "{first_name}, Пшш-ш-ш-ш-ш! Успешно сковано {n} монтировок.",
     "{first_name}, сервер выдержал запрос - random даёт тебе {n} монтировок.",
     "{first_name}, ты сковал {n} монтировок!",
-    "Гуджоп, {first_name}! Добавлено {n} монтировок на счёт."
+    "Hyvää työtä, {first_name}! Добавлено {n} монтировок на счёт."
 ]
 
 messages_fail = [
@@ -25,7 +25,7 @@ messages_fail = [
 ]
 
 @router.message(Command("forge"))
-async def handle_message(message: Message, session: AsyncSession) -> None:
+async def handle_forge(message: Message, session: AsyncSession) -> None:
     stats = await session.get(CrowbarStats, message.from_user.id)
     current_time = int(time.time())
 

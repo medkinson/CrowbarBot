@@ -5,3 +5,5 @@ bot/database/__pycache__/base.cpython-313.pyc
 bot/database/__pycache__/models.cpython-313.pyc
 bot/middlewares/__pycache__/db.cpython-313.pyc
 bot/handlers/__pycache__/forge.cpython-313.pyc
+bot/handlers/__pycache__/top.cpython-313.pyc
+bot/handlers/__pycache__/gift.cpython-313.pyc

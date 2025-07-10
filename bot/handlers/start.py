@@ -15,7 +15,7 @@ messages = [
 ]
 
 @router.message(Command("start"))
-async def handle_message(message: Message, session: AsyncSession) -> None:
+async def handle_start(message: Message, session: AsyncSession) -> None:
     stats = await session.get(CrowbarStats, message.from_user.id)
     
     if not stats:
