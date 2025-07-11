@@ -34,7 +34,7 @@ async def handle_top(message: Message, session: AsyncSession):
     top_list = []
     for idx, user in enumerate(top):
         position = medals[idx] if idx < 3 else f"{idx + 1}."
-        top_list.append(f"{position} {user.first_name} {user.last_name} — {user.crowbars} монтировок")
+        top_list.append(f"{position} {user.first_name} {user.last_name if user.last_name else ''} — {user.crowbars} монтировок")
     response_text = "Монтировочные магнаты:\n\n" + "\n".join(top_list)
     await message.answer(response_text)
 
