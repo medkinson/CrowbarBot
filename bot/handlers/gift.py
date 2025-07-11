@@ -18,8 +18,8 @@ messages_success = [
 ]
 
 messages_fail = [
-    "Пока подарка не занесли, {first_name}. Следующая ковка будет доступна через {hours_left}ч и {minutes_left}мин.",
-    "Нетерпеливый {first_name}! Следующая ковка будет доступна через {hours_left}ч и {minutes_left}мин.",
+    "Пока подарка не занесли, {first_name}. Следующий подарок будет доступен через {hours_left}ч и {minutes_left}мин.",
+    "Нетерпеливый {first_name}! Следующий подарок будет доступен через {hours_left}ч и {minutes_left}мин.",
     "Слишком рано, {first_name}! Следующий подарок будет доступен через {hours_left}ч и {minutes_left}мин.",
     "Чеснок в лицо, {first_name}! Следующий подарок будет доступен через {hours_left}ч и {minutes_left}мин."
 ]
