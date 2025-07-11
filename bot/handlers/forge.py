@@ -41,7 +41,7 @@ async def handle_forge(message: Message, session: AsyncSession) -> None:
         session.add(stats)
         await session.commit()
     if current_time - stats.last_forging >= FORGING_COOLDOWN:
-        crowbar_amount = random.randint(1,5)
+        crowbar_amount = random.randint(0,2)
         stats.crowbars += crowbar_amount
         stats.last_forging = current_time
         await session.commit()
